@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
+const passport = require('passport');
+const authenticate = require('./authenticate');
 
 const mongoose = require('mongoose');
 
@@ -46,30 +48,28 @@ app.use(session({
   store: new FileStore()
 }));
 
-function auth(req, res, next) {
-  console.log(req.session);
+app.use(passport.initialize());
+app.use(passport.session());
 
-  if (!req.session.user) {
-    const err = new Error('You are not authenticated!');
-    err.status = 401;
-    return next(err);
-} else {
-    if (req.session.user === 'authenticated') {
-        return next();
-    } else {
-        const err = new Error('You are not authenticated!');
-        err.status = 401;
-        return next(err);
-    }
-}
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
+function auth(req, res, next) {
+  console.log(req.user);
+
+  if (!req.user) {
+      const err = new Error('You are not authenticated!');                    
+      err.status = 401;
+      return next(err);
+  } else {
+      return next();
+  }
 }
 
 app.use(auth);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/campsites', campsiteRouter)
 app.use('/partners', partnerRouter)
 app.use('/promotions', promotionRouter)
