@@ -97,7 +97,7 @@ campsiteRouter.route('/:campsiteId/comments')
     .then(campsite => {
         if (campsite) {
             req.body.author = req.user._id;
-            campsite.comments.push(req.body); // CHECK
+            campsite.comments.push(req.body);
             campsite.save()
             .then(campsite => {
                 res.statusCode = 200;
