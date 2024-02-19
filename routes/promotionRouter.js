@@ -2,7 +2,8 @@
 
 const express = require('express');
 const Promotion = require('../models/promotion');
-// TODO: Import the model
+const authenticate = require('../authenticate');
+// Imports the model
 
 const promotionRouter = express.Router();
 
