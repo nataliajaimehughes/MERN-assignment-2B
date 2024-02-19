@@ -26,8 +26,6 @@ connect.then(
   err => console.log(err)
 );
 
-
-
 const app = express();
 
 // view engine setup
@@ -37,7 +35,6 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-//app.use(cookieParser('12345-67890-09876-54321'));
 
 app.use(passport.initialize());
 

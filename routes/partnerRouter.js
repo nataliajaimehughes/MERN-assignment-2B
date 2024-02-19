@@ -2,10 +2,10 @@
 
 const express = require('express');
 const Partner = require('../models/partner');
+const authenticate = require('../authenticate');
 // TODO: Import the model
 
 const partnerRouter = express.Router();
-
 
 partnerRouter.route('/')
 .get((req, res, next) => {
